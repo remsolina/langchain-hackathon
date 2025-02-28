@@ -1,2 +1,23 @@
-/.venv
-/.env
+# Ignore environment variables
+.env
+
+# Ignore Python cache and virtual environments
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+env/
+
+# Ignore IDE/editor files
+.idea/
+.vscode/
+*.iml
+
+# Ignore database and embeddings
+*.sqlite3
+embeddings/chromadb/
+
+# Ignore logs and other temporary files
+logs/
+*.log

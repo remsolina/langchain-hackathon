@@ -16,13 +16,27 @@ from langchain.chat_models import ChatOpenAI
 # Helpers
 from utils.pdf_loader import load_preceptor_profiles_from_pdf
 from utils.db_connection import get_mentee_data
-
+import os
+from dotenv import load_dotenv
 app = FastAPI()
 
 # -----------------------
 # 1. INITIAL SETUP
 # -----------------------
-os.environ["OPENAI_API_KEY"] = "fill in the key"  # or set this as an environment variable
+
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Get API key from environment variables
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+if not OPENAI_API_KEY:
+    raise ValueError("OPENAI_API_KEY is not set. Please check your .env file or environment variables.")
+
+print("API Key Loaded Successfully!")
+
+os.environ["OPENAI_API_KEY"] = "sk-************"  # or set this as an environment variable
 PDF_PATH = "data/preceptors.pdf"
 CHROMA_PERSIST_DIR = "embeddings/chromadb"
 

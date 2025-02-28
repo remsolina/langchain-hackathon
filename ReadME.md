@@ -46,14 +46,40 @@ export MYSQL_USER=root
 export MYSQL_PASSWORD=YourSecurePassword
 export MYSQL_DB=mentee_db
 ```
-# 4. Add Your OpenAI API Key
-Inside app.py:
-1. We’ll be using OpenAI embeddings, so you need to provide an API key.
-2. If you are given a key (e.g., on Discord), set it as an environment variable:
+## 4. Add Your OpenAI API Key
+
+We’ll be using OpenAI embeddings, so you need to provide an API key.
+
+1. **Create a `.env` file** in the project root:
+   ```bash 
+   OPENAI_API_KEY=sk-YourOpenAIKey...
+   ```
+
+
+2. **Install `python-dotenv`** (if not already installed):
 ```bash
-export OPENAI_API_KEY="sk-YourOpenAIKey..."
+pip install python-dotenv
+````
+3. **Ensure .env is ignored in .gitignore:
+```bash
+.env
 ```
-Or, if you prefer, you can place it directly in the code in app.py.
+
+4. **Modify app.py to load the key securely:
+```bash
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+if not OPENAI_API_KEY:
+    raise ValueError("⚠️ OPENAI_API_KEY is missing. Check your .env file.")
+```
+5. Load environment variables:
+```bash
+source .env  # Load environment variables
+```
 # 5. Create and Populate the Database
 
 1. Run the script that creates (if needed) your MySQL database and populates it with dummy mentee data:
@@ -82,9 +108,5 @@ The application will:
 
 1. Open your browser or use a tool like Postman or cURL to call the endpoint:
 GET http://localhost:8000/match_mentor/1
-2. You should see a JSON response containing the best‐fit preceptor(s) for the mentee with id=1. You can always chnage this to 2 or 3 depending on the mentee_id you're parsing
+2. You should see a JSON response containing the best‐fit preceptor(s) for the mentee with id=1. You can always change this to 2 or 3 depending on the mentee_id you're parsing
 
-# Troubleshooting
-* Cannot connect to MySQL: Ensure MySQL is running locally and your credentials (host, user, password) match your setup.
-* OPENAI_API_KEY not set: Make sure you’ve correctly set your environment variable or replaced it in app.py.
-* Chroma DB issues: If you see an empty store error, the code will rebuild the store. You might need to delete the persistent folder in embeddings/chromadb if you want a clean start.

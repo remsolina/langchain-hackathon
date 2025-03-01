@@ -26,8 +26,9 @@ def get_mentee_data(mentee_id: int):
     try:
         with conn.cursor() as cursor:
             sql = """
-                SELECT background, experience, learning_style, availability,
-                       personality, unit_needs
+                SELECT background, experience, 
+                learning_style, availability,
+                personality, unit_needs
                 FROM mentees
                 WHERE id = %s
             """
